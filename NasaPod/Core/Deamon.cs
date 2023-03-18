@@ -12,8 +12,6 @@ namespace Nasa.Core
     public class Deamon : ApplicationContext
     {
         Globals env = new Globals();
-
-        
         public Deamon(IConfiguration config)
         {
             env.settings = config.GetSection("AppSettings").Get<AppSettings>();
