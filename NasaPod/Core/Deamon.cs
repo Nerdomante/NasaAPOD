@@ -164,7 +164,7 @@ namespace Nasa.Core
 
         private void SetWallpaper(APOD apod)
         {
-            File.WriteAllText(Globals.storageFileName, JsonConvert.SerializeObject(apod));
+            File.WriteAllText(Globals.storageFileName, JsonConvert.SerializeObject(apod)); 
 
             Image img = Images.GetImage(apod.hdurl);
             Image? wall = null;
