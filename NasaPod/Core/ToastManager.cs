@@ -30,7 +30,7 @@ namespace Nasa.Core
                 .AddText(apod.copyright, AdaptiveTextStyle.HeaderNumeral)
                 .AddArgument("title", apod.title)
                 .AddArgument("description", apod.explanation)
-                .AddArgument("copyright", apod.copyright)
+                .AddArgument("copyright", (String.IsNullOrEmpty(apod.copyright) ? "Nasa" : apod.copyright))
                 .AddAppLogoOverride(new Uri("file:///" + Path.GetFullPath(@"Res\icon.ico")))
                 .Show();
         }

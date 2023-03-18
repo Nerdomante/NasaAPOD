@@ -98,7 +98,7 @@ namespace Nasa.Core
                 APOD oldJsonObject = JsonConvert.DeserializeObject<APOD>(oldJsonAPOD);
 
                 string description = oldJsonObject.explanation +
-                    (String.IsNullOrEmpty(oldJsonObject.copyright) ? "" : Environment.NewLine + Environment.NewLine + oldJsonObject.copyright.Replace("\n", " ").Replace("\r", " ") + " © " + DateTime.Now.Year.ToString());
+                    (String.IsNullOrEmpty(oldJsonObject.copyright) ? Environment.NewLine + Environment.NewLine + "Nasa © " + DateTime.Now.Year.ToString() : Environment.NewLine + Environment.NewLine + oldJsonObject.copyright.Replace("\n", " ").Replace("\r", " ") + " © " + DateTime.Now.Year.ToString());
 
                 Information infoBox = new Information(oldJsonObject.title, description, env);
                 infoBox.ShowDialog();
