@@ -6,6 +6,7 @@ If you like this project or want support it, buy me a coffee ☕
 
 Also starring ⭐ the repo is appreciated!
 
+![alt text](https://github.com/Nerdomante/NasaAPOD/blob/master/demo_screen.jpg?raw=true)
 
 1) If needed you can change value of "ApiKey": "DEMO_KEY" with one provided by: https://api.nasa.gov/#signUp an api key will be sent to your email address.
 
