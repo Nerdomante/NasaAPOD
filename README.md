@@ -1,6 +1,6 @@
 # NasaAPOD
 
-If you like this project or want support, buy me a coffee ☕
+If you like this project or want support it, buy me a coffee ☕
 
 [![](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/donate/?hosted_button_id=L34HN43UDM36Q)
 
