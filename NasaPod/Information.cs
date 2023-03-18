@@ -1,22 +1,17 @@
 ﻿using Nasa.Core;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
+using Nasa.Model.Nasa;
+using Newtonsoft.Json;
 using System.Diagnostics;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using static System.Windows.Forms.DataFormats;
+using static Nasa.Core.Utility;
 
 namespace Nasa
 {
     public partial class Information : Form
     {
-        public Information(string title, string description)
+        Globals _globals = new Globals();
+        public Information(string title, string description, Globals env)
         {
+            _globals = env;
             InitializeComponent(title, description);
         }
 
@@ -36,10 +31,21 @@ namespace Nasa
             }
         }
 
-        private void Translate_Click(object sender, EventArgs e)
+        private void TranslateLANG_Click(object sender, EventArgs e)
         {
-            string translated = Utility.Translate(Description.Text);
+            string translated = Utility.Translate(Description.Text, "en", _globals.settings.Lang);
             Description.Text = translated;
+            TranslateLANG.Visible = false;
+            TranslateEN.Visible = true;
+        }
+        private void TranslateENG_Click(object sender, EventArgs e)
+        {
+            string oldJsonAPOD = File.ReadAllText(Globals.storageFileName);
+            APOD oldJsonObject = JsonConvert.DeserializeObject<APOD>(oldJsonAPOD);
+
+            Description.Text = oldJsonObject.explanation;
+            TranslateLANG.Visible = true;
+            TranslateEN.Visible = false;
         }
     }
 }

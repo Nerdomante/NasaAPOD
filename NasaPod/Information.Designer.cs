@@ -31,7 +31,8 @@
             Description = new RichTextBox();
             Title = new Label();
             More = new Button();
-            Translate = new Button();
+            TranslateLANG = new Button();
+            TranslateEN = new Button();
             SuspendLayout();
             // 
             // Description
@@ -67,15 +68,26 @@
             More.UseVisualStyleBackColor = true;
             More.Click += More_Click;
             // 
-            // Translate
+            // TranslateLANG
             // 
-            Translate.Location = new Point(250, 285);
-            Translate.Name = "Translate";
-            Translate.Size = new Size(65, 25);
-            Translate.TabIndex = 4;
-            Translate.Text = "Translate";
-            Translate.UseVisualStyleBackColor = true;
-            Translate.Click += Translate_Click;
+            TranslateLANG.Location = new Point(250, 285);
+            TranslateLANG.Name = "Translate";
+            TranslateLANG.Size = new Size(65, 25);
+            TranslateLANG.TabIndex = 4;
+            TranslateLANG.Text = "Translate";
+            TranslateLANG.UseVisualStyleBackColor = true;
+            TranslateLANG.Click += TranslateLANG_Click;
+            // 
+            // TranslateENG
+            // 
+            TranslateEN.Location = new Point(250, 285);
+            TranslateEN.Name = "Translate";
+            TranslateEN.Size = new Size(65, 25);
+            TranslateEN.TabIndex = 4;
+            TranslateEN.Text = "Translate";
+            TranslateEN.UseVisualStyleBackColor = true;
+            TranslateEN.Click += TranslateENG_Click;
+            TranslateEN.Visible = false;
             // 
             // Information
             // 
@@ -83,7 +95,8 @@
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(400, 320);
             Controls.Add(More);
-            Controls.Add(Translate);
+            Controls.Add(TranslateLANG);
+            Controls.Add(TranslateEN);
             Controls.Add(Title);
             Controls.Add(Description);
             Name = "Information";
@@ -92,6 +105,7 @@
             MaximizeBox = false;
             MinimizeBox = false;
             Icon = new Icon("Res/icon.ico");
+            StartPosition = FormStartPosition.CenterScreen;
             ResumeLayout(false);
             PerformLayout();
         }
@@ -101,6 +115,7 @@
         private RichTextBox Description;
         private Label Title;
         private Button More;
-        private Button Translate;
+        private Button TranslateLANG;
+        private Button TranslateEN;
     }
 }

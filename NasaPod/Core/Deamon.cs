@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Toolkit.Uwp.Notifications;
+using Nasa.Model;
 using Nasa.Model.Nasa;
 using Newtonsoft.Json;
 using System.Timers;
@@ -12,7 +13,7 @@ namespace Nasa.Core
     {
         Globals env = new Globals();
 
-        private const string storageFileName = "last_call.old";
+        
         public Deamon(IConfiguration config)
         {
             env.settings = config.GetSection("AppSettings").Get<AppSettings>();
@@ -22,11 +23,13 @@ namespace Nasa.Core
 
             ToolStripMenuItem active = new ToolStripMenuItem("Active", null, new EventHandler(Active), "Active");
             active.Checked = true;
+            ToolStripMenuItem force = new ToolStripMenuItem("Update", null, new EventHandler(Force), "Update");
             ToolStripMenuItem info = new ToolStripMenuItem("Info", null, new EventHandler(Info), "Info");
             ToolStripMenuItem exit = new ToolStripMenuItem("Exit", null, new EventHandler(Exit), "Exit");
 
             ContextMenuStrip menu = new ContextMenuStrip();
             menu.Items.Add(active);
+            menu.Items.Add(force);
             menu.Items.Add(info);
             menu.Items.Add(exit);
 
@@ -53,11 +56,11 @@ namespace Nasa.Core
                 if (description != null)
                 {
                     Information infoBox = new Information(
-                        title, 
-                        description + 
-                        Environment.NewLine + 
-                        Environment.NewLine + 
-                        copyright.Replace("\n", " ").Replace("\r", " ") + " © " + DateTime.Now.Year.ToString());
+                        title,
+                        description +
+                        (String.IsNullOrEmpty(copyright) ? "" : Environment.NewLine + Environment.NewLine + copyright.Replace("\n", " ").Replace("\r", " ") + " © " + DateTime.Now.Year.ToString()),
+                        env
+                        );
 
                     infoBox.ShowDialog();
                 }
@@ -84,20 +87,22 @@ namespace Nasa.Core
             }
         }
 
+        private void Force(object? sender, EventArgs e)
+        {
+            UpdateWallpaper(true);
+        }
+
         private void Info(object? sender, EventArgs e)
         {
-            if (File.Exists(storageFileName))
+            if (File.Exists(Globals.storageFileName))
             {
-                string oldJsonAPOD = File.ReadAllText(storageFileName);
+                string oldJsonAPOD = File.ReadAllText(Globals.storageFileName);
                 APOD oldJsonObject = JsonConvert.DeserializeObject<APOD>(oldJsonAPOD);
 
                 string description = oldJsonObject.explanation +
-                    Environment.NewLine +
-                    Environment.NewLine +
-                    oldJsonObject.copyright.Replace("\n", " ").Replace("\r", " ") +
-                    " © " + DateTime.Now.Year.ToString();
+                    (String.IsNullOrEmpty(oldJsonObject.copyright) ? "" : Environment.NewLine + Environment.NewLine + oldJsonObject.copyright.Replace("\n", " ").Replace("\r", " ") + " © " + DateTime.Now.Year.ToString());
 
-                Information infoBox = new Information(oldJsonObject.title, description);
+                Information infoBox = new Information(oldJsonObject.title, description, env);
                 infoBox.ShowDialog();
             }
         }
@@ -121,7 +126,7 @@ namespace Nasa.Core
         {
             UpdateWallpaper();
         }
-        private void UpdateWallpaper()
+        private void UpdateWallpaper(bool forced = false)
         {
             try
             {
@@ -132,43 +137,57 @@ namespace Nasa.Core
                     Environment.NewLine +
                     "Last: " + Convert.ToDateTime(apod.date).ToString("dd/MM/yyyy") +
                     Environment.NewLine +
-                    "────────────────" +
                     Environment.NewLine +
                     apod.title +
                     Environment.NewLine +
-                    "© " + apod.copyright.Replace("\n", " ").Replace("\r", " ") +
-                    Environment.NewLine +
-                    "────────────────" +
-                    Environment.NewLine;
+                    (String.IsNullOrEmpty(apod.copyright) ? Environment.NewLine + "Nasa © " + DateTime.Now.Year : Environment.NewLine + apod.copyright.Replace("\n", " ").Replace("\r", " ") + " © " + DateTime.Now.Year);
                 env.trayIcon.Text = tooltip.Truncate(127);
 
-                if (!File.Exists(storageFileName))
+                if (!File.Exists(Globals.storageFileName))
                 {
-                    File.WriteAllText(storageFileName, JsonConvert.SerializeObject(apod));
-
-                    Wallpaper.Set(new Uri(apod.hdurl), Wallpaper.Style.Fill);
-
-                    ToastManager.Notify(apod);
+                    SetWallpaper(apod);
                 }
                 else
                 {
-                    string oldJsonAPOD = File.ReadAllText(storageFileName);
+                    string oldJsonAPOD = File.ReadAllText(Globals.storageFileName);
                     APOD oldJsonObject = JsonConvert.DeserializeObject<APOD>(oldJsonAPOD);
 
-                    if (Convert.ToDateTime(apod.date) > Convert.ToDateTime(oldJsonObject.date))
-                    {
-                        File.WriteAllText(storageFileName, JsonConvert.SerializeObject(apod));
-
-                        Wallpaper.Set(new Uri(apod.hdurl), Wallpaper.Style.Fill);
-
-                        ToastManager.Notify(apod);
-                    }
+                   if (Convert.ToDateTime(apod.date) > Convert.ToDateTime(oldJsonObject.date) || forced)
+                   {
+                        SetWallpaper(apod);
+                   }
                 }
             }
             catch (Exception ex)
             {
                 ToastManager.Error(ex);
             }
+        }
+
+        private void SetWallpaper(APOD apod)
+        {
+            File.WriteAllText(Globals.storageFileName, JsonConvert.SerializeObject(apod));
+
+            Image img = Images.GetImage(apod.hdurl);
+            Image? wall = null;
+            if (img.Height > img.Width || (img.Height - img.Width) <= env.settings.Ratio)
+            {
+                if (img.Height >= Screen.PrimaryScreen.Bounds.Height || (Screen.PrimaryScreen.Bounds.Height - img.Height) <= env.settings.ScaleThreshold)
+                {
+                    img = Images.ScaleImage(img, Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
+                }
+                wall = Images.FillImage(img, env.settings);
+                wall = Images.Save(wall);
+                Wallpaper.Set(wall, Wallpaper.Style.Center);
+            }
+            else
+            {
+                wall = Images.ScaleImage(img, Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
+                wall = Images.Save(wall);
+                Wallpaper.Set(wall, Wallpaper.Style.Fill);
+            }
+
+            ToastManager.Notify(apod);
         }
     }
 }
