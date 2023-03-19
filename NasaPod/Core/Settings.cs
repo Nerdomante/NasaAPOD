@@ -8,7 +8,7 @@
         public int HoursInterval { get; set; }
         public string Lang { get; set; }
         public string FillerPath { get; set; }
-        public int Ratio { get; internal set; }
-        public int ScaleThreshold { get; internal set; }
+        public int Ratio { get; set; }
+        public int ScaleThreshold { get; set; }
     }
 }
