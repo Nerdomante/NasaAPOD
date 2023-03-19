@@ -55,10 +55,10 @@ appsettings.json file contain all configurable values:
 
 **Lang**: ISO 639-1 code of the language to translate into (ref: https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes)
 
-**BlurLevel**: If you want, you can specify a level to blur effect to apply on filler image for those APOD not have close dimesion to become a nice wallpaper.
+**BlurLevel**: If you want, you can specify a level to blur effect to apply on filler image for those APOD not have correct size to become a nice wallpaper.
 
-**FillerPath**: If you want, you can change the filler image for those APOD not have close dimesion to become a nice wallpaper.
+**FillerPath**: If you want, you can change the filler image for those APOD not have correct size to become a nice wallpaper.
 
 **Ratio**: Is the difference between Height minus Width of the image. If this result is lower or equal the value, the image is set as wallpaper in FILL mode.
 
-**ScaleThreshold**: Is the difference between you screen Height minus Height of the image. If this result is lower or equal the value, the image is not scaled.
+**ScaleThreshold**: Is the difference between your screen Height minus Height of the image. If this result is lower or equal the value, the image is not scaled.
