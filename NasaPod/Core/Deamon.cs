@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Toolkit.Uwp.Notifications;
-using Nasa.Model;
 using Nasa.Model.Nasa;
 using Newtonsoft.Json;
 using System.Timers;
@@ -164,10 +163,20 @@ namespace Nasa.Core
 
         private void SetWallpaper(APOD apod)
         {
-            File.WriteAllText(Globals.storageFileName, JsonConvert.SerializeObject(apod)); 
+            File.WriteAllText(Globals.storageFileName, JsonConvert.SerializeObject(apod));
 
-            Image img = Images.GetImage(apod.hdurl);
             Image? wall = null;
+            Image img = null;
+
+            if (apod.media_type.ToLower() == "video")
+            {
+                img = Images.GetYoutubeVideoThumbnailAsync(apod.url).Result;
+            }
+            else
+            {
+                img = Images.GetImage(apod.hdurl);
+            }
+            
             if (img.Height > img.Width || (img.Height - img.Width) <= env.settings.Ratio)
             {
                 if (img.Height >= Screen.PrimaryScreen.Bounds.Height || (Screen.PrimaryScreen.Bounds.Height - img.Height) <= env.settings.ScaleThreshold)

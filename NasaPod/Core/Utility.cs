@@ -1,9 +1,12 @@
 ﻿using Microsoft.Win32;
 using Nasa.Model;
+using System.Diagnostics;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.Net;
 using System.Runtime.InteropServices;
+using System.Text;
+using System.Text.RegularExpressions;
 using System.Web;
 
 namespace Nasa.Core
@@ -449,6 +452,25 @@ namespace Nasa.Core
 
                 // Restituisce il colore dominante come un oggetto Color
                 return Color.FromArgb(avgR, avgG, avgB);
+            }
+
+            public static async Task<Image> GetYoutubeVideoThumbnailAsync(string videoUrl)
+            {
+                Match youtubeMatch = new Regex(@"youtu(?:\.be|be\.com)/(?:.*v(?:/|=)|(?:.*/)?)([a-zA-Z0-9-_]+)").Match(videoUrl);
+
+                Match vimeoMatch = new Regex(@"vimeo\.com/(?:.*#|.*/videos/)?([0-9]+)").Match(videoUrl); ;
+
+                string id = string.Empty;
+
+                if (youtubeMatch.Success)
+                    id = youtubeMatch.Groups[1].Value;
+
+                if (vimeoMatch.Success)
+                    id = vimeoMatch.Groups[1].Value;
+
+                string url = String.Format("http://i.ytimg.com/vi/{0}/maxresdefault.jpg", id);
+                Image img = GetImage(url);
+                return img;
             }
         }
     }
