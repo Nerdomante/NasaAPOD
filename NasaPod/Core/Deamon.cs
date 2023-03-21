@@ -183,9 +183,17 @@ namespace Nasa.Core
                 {
                     img = Images.ScaleImage(img, Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
                 }
-                wall = Images.FillImage(img, env.settings);
-                wall = Images.Save(wall);
-                Wallpaper.Set(wall, Wallpaper.Style.Center);
+                if((Screen.PrimaryScreen.Bounds.Width - img.Width) <= env.settings.ScaleThreshold)
+                {
+                    wall = Images.Save(img);
+                    Wallpaper.Set(wall, Wallpaper.Style.Fill);
+                }
+                else
+                {
+                    wall = Images.FillImage(img, env.settings);
+                    wall = Images.Save(wall);
+                    Wallpaper.Set(wall, Wallpaper.Style.Center);
+                }
             }
             else
             {
