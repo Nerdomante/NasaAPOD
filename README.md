@@ -59,6 +59,8 @@ appsettings.json file contain all configurable values:
 
 **FillerPath**: If you want, you can change the filler image for those APOD not have correct size to become a nice wallpaper.
 
-**Ratio**: Is the difference between Height minus Width of the image. If this result is lower or equal the value, the image is set as wallpaper in FILL mode.
+**Ratio**: Is the difference between height minus width of the image. If this result is lower or equal the value, the image is set as wallpaper in FILL mode.
 
-**ScaleThreshold**: Is the difference between your screen Height minus Height of the image. If this result is lower or equal the value, the image is not scaled.
+**ScaleThreshold**: Is the difference between your screen's height minus height of the image. If this result is lower or equal the value, the image is not scaled.
+
+**!IMPORTANT!**: ScaleThreshold and Ratio deafult value it's fine for a monitor resolution of 1080 x 1920, for highter it's highly recommend increase these value.
