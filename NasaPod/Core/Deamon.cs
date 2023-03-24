@@ -170,7 +170,7 @@ namespace Nasa.Core
 
             if (apod.media_type.ToLower() == "video")
             {
-                img = Images.GetYoutubeVideoThumbnailAsync(apod.url).Result;
+                img = Images.GetVideoThumbnail(apod.url).Result;
             }
             else
             {

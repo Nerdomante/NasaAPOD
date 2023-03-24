@@ -454,7 +454,7 @@ namespace Nasa.Core
                 return Color.FromArgb(avgR, avgG, avgB);
             }
 
-            public static async Task<Image> GetYoutubeVideoThumbnailAsync(string videoUrl)
+            public static async Task<Image> GetVideoThumbnail(string videoUrl)
             {
                 Match youtubeMatch = new Regex(@"youtu(?:\.be|be\.com)/(?:.*v(?:/|=)|(?:.*/)?)([a-zA-Z0-9-_]+)").Match(videoUrl);
 
