@@ -20,6 +20,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Res\Video\**" />
+    <EmbeddedResource Remove="Res\Video\**" />
+    <None Remove="Res\Video\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="Nasa.csproj.vspscc" />
   </ItemGroup>
 
@@ -49,10 +55,6 @@
     <None Update="Res\skyfiller.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Res\Video\" />
   </ItemGroup>
 
 </Project>

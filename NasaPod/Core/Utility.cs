@@ -1,19 +1,10 @@
 ﻿using Microsoft.Win32;
-using Nasa.Model;
-using Nasa.Model.Nasa;
-using Nasa.Model.Vimeo;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using RestSharp;
-using System.Diagnostics;
-using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.Net;
 using System.Runtime.InteropServices;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
-using System.Xml;
 
 namespace Nasa.Core
 {

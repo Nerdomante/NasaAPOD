@@ -1,6 +1,4 @@
 using Microsoft.Extensions.Configuration;
-using Microsoft.Toolkit.Uwp.Notifications;
-using Windows.Foundation.Collections;
 
 namespace Nasa.Core
 {
