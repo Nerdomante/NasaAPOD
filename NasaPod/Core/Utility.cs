@@ -1,5 +1,10 @@
 ﻿using Microsoft.Win32;
 using Nasa.Model;
+using Nasa.Model.Nasa;
+using Nasa.Model.Vimeo;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using RestSharp;
 using System.Diagnostics;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
@@ -8,6 +13,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
+using System.Xml;
 
 namespace Nasa.Core
 {
@@ -235,6 +241,30 @@ namespace Nasa.Core
             }
         }
 
+        public static string GetUrlFromJson(string id)
+        {
+
+            string videoUrl = String.Format("http://vimeo.com/api/v2/video/{0}.json", id);
+            string videoId = videoUrl.Split('/').Last();
+
+            string apiUrl = $"http://vimeo.com/api/v2/video/{videoId}.json";
+
+            using (WebClient client = new WebClient())
+            {
+                string json = client.DownloadString(apiUrl);
+                JArray jsonArray = JArray.Parse(json);
+                string thumbnailUrl = (string)jsonArray[0]["thumbnail_large"];
+                if (String.IsNullOrEmpty(thumbnailUrl))
+                {
+                    throw new Exception("Cannot get vimeo thumnbail");
+                }
+                else
+                {
+                    return thumbnailUrl;
+                }
+            }
+        } 
+
         public static class Images
         {
             public static Image GetImage(string imageUrl)
@@ -456,20 +486,35 @@ namespace Nasa.Core
 
             public static async Task<Image> GetVideoThumbnail(string videoUrl)
             {
-                Match youtubeMatch = new Regex(@"youtu(?:\.be|be\.com)/(?:.*v(?:/|=)|(?:.*/)?)([a-zA-Z0-9-_]+)").Match(videoUrl);
-
-                Match vimeoMatch = new Regex(@"vimeo\.com/(?:.*#|.*/videos/)?([0-9]+)").Match(videoUrl); ;
 
                 string id = string.Empty;
+                string url = "";
 
+                //YOTUBE
+                Match youtubeMatch = new Regex(@"youtu(?:\.be|be\.com)/(?:.*v(?:/|=)|(?:.*/)?)([a-zA-Z0-9-_]+)").Match(videoUrl);
                 if (youtubeMatch.Success)
+                {
                     id = youtubeMatch.Groups[1].Value;
+                    url = String.Format("http://i.ytimg.com/vi/{0}/maxresdefault.jpg", id);
+                }
 
+                //VIMEO
+                Match vimeoMatch = new Regex(@"(?:https?:\/\/)?(?:www\.)?vimeo\.com\/(?:channels\/(?:\w+\/)?|groups\/([^\/]*)\/videos\/|album\/(\d+)\/video\/|)(\d+)(?:[?]?.*)").Match(videoUrl);
                 if (vimeoMatch.Success)
-                    id = vimeoMatch.Groups[1].Value;
+                {
+                    id = vimeoMatch.Groups[3].Value;
+                    url = GetUrlFromJson(id);
+                }
+                //VIMEO 2
+                Match vimeoMatch2 = new Regex(@"^//player\.vimeo\.com/video/(\d+)\b").Match(videoUrl);
+                if (vimeoMatch2.Success)
+                {
+                    id = vimeoMatch2.Groups[1].Value;
+                    url = GetUrlFromJson(id);
+                }
 
-                string url = String.Format("http://i.ytimg.com/vi/{0}/maxresdefault.jpg", id);
                 Image img = GetImage(url);
+
                 return img;
             }
         }
