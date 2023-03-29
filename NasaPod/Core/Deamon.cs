@@ -179,11 +179,11 @@ namespace Nasa.Core
             
             if (img.Height > img.Width || (img.Height - img.Width) <= env.settings.Ratio)
             {
-                if (img.Height >= Screen.PrimaryScreen.Bounds.Height || (Screen.PrimaryScreen.Bounds.Height - img.Height) <= env.settings.ScaleThreshold)
+                if (img.Height >= Screen.PrimaryScreen.Bounds.Height || (Screen.PrimaryScreen.Bounds.Height - img.Height) <= env.settings.ScaleThresholdHeight)
                 {
                     img = Images.ScaleImage(img, Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
                 }
-                if((Screen.PrimaryScreen.Bounds.Width - img.Width) <= env.settings.ScaleThreshold)
+                if((Screen.PrimaryScreen.Bounds.Width - img.Width) <= env.settings.ScaleThresholdWidth)
                 {
                     wall = Images.Save(img);
                     Wallpaper.Set(wall, Wallpaper.Style.Fill);

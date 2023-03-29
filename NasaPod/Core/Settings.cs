@@ -9,6 +9,7 @@
         public string Lang { get; set; }
         public string FillerPath { get; set; }
         public int Ratio { get; set; }
-        public int ScaleThreshold { get; set; }
+        public int ScaleThresholdHeight { get; set; }
+        public int ScaleThresholdWidth { get; set; }
     }
 }
