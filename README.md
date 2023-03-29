@@ -41,7 +41,8 @@ appsettings.json file contain all configurable values:
     "BlurLevel": 0,
     "FillerPath": "Res/skyfiller.png",
     "Ratio": 550,
-    "ScaleThreshold": 250
+    "ScaleThresholdHeight": 300,
+    "ScaleThresholdWidth": 320
   }
 }
 ```
@@ -61,6 +62,8 @@ appsettings.json file contain all configurable values:
 
 **Ratio**: Is the difference between height minus width of the image. If this result is lower or equal the value, the image is set as wallpaper in FILL mode.
 
-**ScaleThreshold**: Is the difference between your screen's height minus height of the image. If this result is lower or equal the value, the image is not scaled.
+**ScaleThresholdHeight**: Is the difference between your screen's height minus height of the image. If this result is lower or equal the value, the image is not scaled.
 
-**!IMPORTANT!**: ScaleThreshold and Ratio deafult value it's fine for a monitor resolution of 1080 x 1920, for highter it's highly recommend increase these value.
+**ScaleThresholdWidth**: Is the difference between your screen's width minus width of the image. If this result is lower or equal the value, the image is not scaled.
+
+**!IMPORTANT!**: ScaleThresholdHeight, ScaleThresholdWidth and Ratio deafult value it's fine for a monitor resolution of 1080 x 1920, for highter it's highly recommend increase these value.
