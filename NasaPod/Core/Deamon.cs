@@ -2,6 +2,7 @@
 using Microsoft.Toolkit.Uwp.Notifications;
 using Nasa.Model.Nasa;
 using Newtonsoft.Json;
+using System.Net;
 using System.Timers;
 using Windows.Foundation.Collections;
 using static Nasa.Core.Utility;
@@ -174,7 +175,14 @@ namespace Nasa.Core
             }
             else
             {
-                img = Images.GetImage(apod.hdurl);
+                try
+                {
+                    img = Images.GetImage(apod.hdurl);
+                }
+                catch(WebException ex)
+                {
+                    img = Images.GetImage(apod.url);
+                }
             }
             
             if (img.Height > img.Width || (img.Height - img.Width) <= env.settings.Ratio)
