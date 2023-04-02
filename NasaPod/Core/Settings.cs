@@ -11,5 +11,6 @@
         public int Ratio { get; set; }
         public int ScaleThresholdHeight { get; set; }
         public int ScaleThresholdWidth { get; set; }
+        public int FillerTransparency { get; set; }
     }
 }

@@ -42,7 +42,8 @@ appsettings.json file contain all configurable values:
     "FillerPath": "Res/skyfiller.png",
     "Ratio": 550,
     "ScaleThresholdHeight": 300,
-    "ScaleThresholdWidth": 320
+    "ScaleThresholdWidth": 320,
+    "FillerTransparency":  200
   }
 }
 ```
@@ -64,4 +65,6 @@ Ratio: This is the difference between the height and width of the image. If this
 
 **ScaleThresholdWidth**: This is the difference between your screen's width and the width of the image. If this result is lower or equal to the value, the image is not scaled.
 
-**! IMPORTANT !**: The default values for ScaleThresholdHeight, ScaleThresholdWidth, and Ratio are fine for a monitor resolution of 1080 x 1920. For higher resolutions, it is highly recommended to increase these values.
+**FillerTransparency**: Is the transparency effect (alpha channel) of solid color mask, applied to image.
+
+**!IMPORTANT!**: ScaleThresholdHeight, ScaleThresholdWidth and Ratio deafult value it's fine for a monitor resolution of 1080 x 1920, for highter it's highly recommend increase these value.

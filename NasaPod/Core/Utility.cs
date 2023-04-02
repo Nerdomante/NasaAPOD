@@ -308,7 +308,7 @@ namespace Nasa.Core
 
                 // Create a new gradient brush with random colors based on the color of the original image
                 Color dominant = GetDominantColor(image);
-                Color maskColor = Color.FromArgb(150, dominant.R, dominant.G, dominant.B);
+                Color maskColor = Color.FromArgb(settings.FillerTransparency, dominant.R, dominant.G, dominant.B);
 
                 SolidBrush solidbrush = new SolidBrush(maskColor);
 
