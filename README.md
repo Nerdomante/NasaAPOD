@@ -48,7 +48,7 @@ appsettings.json file contain all configurable values:
 }
 ```
 
-**ApiKey**: You can leave DEMO_KEY. This default key has a limit of 30 hourly requests per IP address and 50 daily requests per day. This program makes only 24 calls each day, but you can set a higher value in the HoursInterval to make it do less.
+**ApiKey**: You can leave DEMO_KEY. This default key has a limit of 30 hourly requests per IP address and 50 daily requests per day. This program only makes 24 calls each day, but you can set a higher value in the HoursInterval to make it do less.
 
 **Endpoint**: This is the endpoint of the NASA REST API.
 
@@ -56,15 +56,16 @@ appsettings.json file contain all configurable values:
 
 **Lang**: This is the ISO 639-1 code of the language to translate into (reference: https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes).
 
-**BlurLevel**: If you want, you can specify a level of blur effect to apply on filler images for those APODs that do not have the correct size to become a nice wallpaper.
+**BlurLevel**: If you want, you can specify a level of blur effect to apply to filler images for those APODs that do not have the correct size to become a nice wallpaper.
 
 **FillerPath**: If you want, you can change the filler image for those APODs that do not have the correct size to become a nice wallpaper.
-Ratio: This is the difference between the height and width of the image. If this result is lower or equal to the value, the image is set as wallpaper in FILL mode.
+
+**Ratio**: This is the difference between the height and width of the image. If this result is lower or equal to the value, the image is set as wallpaper in FILL mode.
 
 **ScaleThresholdHeight**: This is the difference between your screen's height and the height of the image. If this result is lower or equal to the value, the image is not scaled.
 
 **ScaleThresholdWidth**: This is the difference between your screen's width and the width of the image. If this result is lower or equal to the value, the image is not scaled.
 
-**FillerTransparency**: Is the transparency effect (alpha channel) of solid color mask, applied to image.
+**FillerTransparency**: This is the transparency effect (alpha channel) of a solid color mask applied to the image.
 
-**!IMPORTANT!**: ScaleThresholdHeight, ScaleThresholdWidth and Ratio deafult value it's fine for a monitor resolution of 1080 x 1920, for highter it's highly recommend increase these value.
+**!IMPORTANT!**: The default values for ScaleThresholdHeight, ScaleThresholdWidth, and Ratio are fine for a monitor resolution of 1080 x 1920. For higher resolutions, it is highly recommended to increase these values.
