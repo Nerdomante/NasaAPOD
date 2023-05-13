@@ -136,7 +136,24 @@ namespace Nasa.Core
                     throw new Exception("Internet connection was lost");
                 }
                 NasaAPI nasa = new NasaAPI(env.settings.ApiKey);
-                APOD apod = await nasa.PictureOfDayAsync(env.settings);
+                APOD apod = new APOD();
+
+                if (!File.Exists(Globals.storageFileName))
+                {
+                    apod = await nasa.PictureOfDayAsync(env.settings);
+                    await SetWallpaperAsync(apod);
+                }
+                else
+                {
+                    string oldJsonAPOD = File.ReadAllText(Globals.storageFileName);
+                    apod = JsonConvert.DeserializeObject<APOD>(oldJsonAPOD);
+
+                    if (Convert.ToDateTime(DateTime.Now) > Convert.ToDateTime(apod.date) || forced)
+                    {
+                        apod = await nasa.PictureOfDayAsync(env.settings);
+                        await SetWallpaperAsync(apod);
+                    }
+                }
 
                 string tooltip = "Nasa APOD" +
                     Environment.NewLine +
@@ -148,20 +165,6 @@ namespace Nasa.Core
                     (String.IsNullOrEmpty(apod.copyright) ? Environment.NewLine + "Nasa © " + DateTime.Now.Year : Environment.NewLine + apod.copyright.Replace("\n", " ").Replace("\r", " ") + " © " + DateTime.Now.Year);
                 env.trayIcon.Text = tooltip.Truncate(127);
 
-                if (!File.Exists(Globals.storageFileName))
-                {
-                    await SetWallpaperAsync(apod);
-                }
-                else
-                {
-                    string oldJsonAPOD = File.ReadAllText(Globals.storageFileName);
-                    APOD oldJsonObject = JsonConvert.DeserializeObject<APOD>(oldJsonAPOD);
-
-                    if (Convert.ToDateTime(apod.date) > Convert.ToDateTime(oldJsonObject.date) || forced)
-                    {
-                        await SetWallpaperAsync(apod);
-                    }
-                }
             }
             catch (Exception ex)
             {
