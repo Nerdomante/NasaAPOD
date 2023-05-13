@@ -148,7 +148,7 @@ namespace Nasa.Core
                     string oldJsonAPOD = File.ReadAllText(Globals.storageFileName);
                     apod = JsonConvert.DeserializeObject<APOD>(oldJsonAPOD);
 
-                    if (Convert.ToDateTime(DateTime.Now) > Convert.ToDateTime(apod.date) || forced)
+                    if (Convert.ToDateTime(DateTime.Now.Date) > Convert.ToDateTime(apod.date) || forced)
                     {
                         apod = await nasa.PictureOfDayAsync(env.settings);
                         await SetWallpaperAsync(apod);
