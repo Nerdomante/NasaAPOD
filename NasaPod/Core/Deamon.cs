@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Toolkit.Uwp.Notifications;
 using Nasa.Model.Nasa;
 using Newtonsoft.Json;
@@ -13,7 +12,6 @@ namespace Nasa.Core
     public class Deamon : ApplicationContext
     {
         Globals env = new Globals();
-
         public Deamon(IConfiguration config)
         {
             env.settings = config.GetSection("AppSettings").Get<AppSettings>();
