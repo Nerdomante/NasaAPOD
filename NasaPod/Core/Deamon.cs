@@ -1,8 +1,8 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Toolkit.Uwp.Notifications;
 using Nasa.Model.Nasa;
-using Newtonsoft.Json;
 using System.Net;
+using System.Text.Json;
 using System.Timers;
 using Windows.Foundation.Collections;
 using static Nasa.Core.Utility;
@@ -95,7 +95,7 @@ namespace Nasa.Core
             if (File.Exists(Globals.storageFileName))
             {
                 string oldJsonAPOD = File.ReadAllText(Globals.storageFileName);
-                APOD oldJsonObject = JsonConvert.DeserializeObject<APOD>(oldJsonAPOD);
+                APOD oldJsonObject = JsonSerializer.Deserialize<APOD>(oldJsonAPOD);
 
                 string description = oldJsonObject.explanation +
                     (String.IsNullOrEmpty(oldJsonObject.copyright) ? Environment.NewLine + Environment.NewLine + "Nasa © " + DateTime.Now.Year.ToString() : Environment.NewLine + Environment.NewLine + oldJsonObject.copyright.Replace("\n", " ").Replace("\r", " ") + " © " + DateTime.Now.Year.ToString());
@@ -146,12 +146,12 @@ namespace Nasa.Core
                 else
                 {
                     string oldJsonAPOD = File.ReadAllText(Globals.storageFileName);
-                    apod = JsonConvert.DeserializeObject<APOD>(oldJsonAPOD);
+                    apod = JsonSerializer.Deserialize<APOD>(oldJsonAPOD);
 
                     if (Convert.ToDateTime(DateTime.Now.Date) > Convert.ToDateTime(apod.date) || forced)
                     {
                         apod = await nasa.PictureOfDayAsync(env.settings);
-                        if (Convert.ToDateTime(JsonConvert.DeserializeObject<APOD>(oldJsonAPOD).date) > Convert.ToDateTime(apod.date) || forced)
+                        if (Convert.ToDateTime(JsonSerializer.Deserialize<APOD>(oldJsonAPOD).date) > Convert.ToDateTime(apod.date) || forced)
                         {
                             await SetWallpaperAsync(apod);
                         }
@@ -177,7 +177,7 @@ namespace Nasa.Core
 
         private async Task SetWallpaperAsync(APOD apod)
         {
-            File.WriteAllText(Globals.storageFileName, JsonConvert.SerializeObject(apod));
+            File.WriteAllText(Globals.storageFileName, JsonSerializer.Serialize(apod));
 
             Image? wall = null;
             Image img = null;

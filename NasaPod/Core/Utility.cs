@@ -1,9 +1,8 @@
 ﻿using Microsoft.Win32;
-using Newtonsoft.Json.Linq;
 using System.Drawing.Imaging;
 using System.Net;
-using System.Net.NetworkInformation;
 using System.Runtime.InteropServices;
+using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Web;
 
@@ -257,7 +256,6 @@ namespace Nasa.Core
 
         public static string GetUrlFromJson(string id)
         {
-
             string videoUrl = String.Format("http://vimeo.com/api/v2/video/{0}.json", id);
             string videoId = videoUrl.Split('/').Last();
 
@@ -266,18 +264,21 @@ namespace Nasa.Core
             using (WebClient client = new WebClient())
             {
                 string json = client.DownloadString(apiUrl);
-                JArray jsonArray = JArray.Parse(json);
-                string thumbnailUrl = (string)jsonArray[0]["thumbnail_large"];
-                if (String.IsNullOrEmpty(thumbnailUrl))
+                using (JsonDocument document = JsonDocument.Parse(json))
                 {
-                    throw new Exception("Cannot get vimeo thumnbail");
-                }
-                else
-                {
-                    return thumbnailUrl;
+                    List<JsonElement> jsonArray = document.RootElement.EnumerateArray().ToList();
+                    string thumbnailUrl = (string)jsonArray[0].GetProperty("thumbnail_large").GetString();
+                    if (string.IsNullOrEmpty(thumbnailUrl))
+                    {
+                        throw new Exception("Cannot get vimeo thumbnail");
+                    }
+                    else
+                    {
+                        return thumbnailUrl;
+                    }
                 }
             }
-        } 
+        }
 
         public static class Images
         {

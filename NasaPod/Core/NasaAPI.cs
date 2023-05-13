@@ -1,6 +1,6 @@
 ﻿using Nasa.Model.Nasa;
-using Newtonsoft.Json;
 using RestSharp;
+using System.Text.Json;
 
 namespace Nasa.Core
 {
@@ -24,7 +24,7 @@ namespace Nasa.Core
             {
                 if (response.Content != null)
                 {
-                    APOD respObject = JsonConvert.DeserializeObject<APOD>(response.Content);
+                    APOD respObject = JsonSerializer.Deserialize<APOD>(response.Content);
                     return respObject != null ? respObject : new APOD();
                 }
                 else
