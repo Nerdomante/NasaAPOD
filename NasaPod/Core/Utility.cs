@@ -275,15 +275,16 @@ namespace Nasa.Core
 
         public static class Images
         {
-            public static Image GetImage(string imageUrl)
+            public static async Task<Image> GetImageAsync(string imageUrl)
             {
                 WebClient client = new WebClient();
-                byte[] imageData = client.DownloadData(imageUrl);
+                byte[] imageData = await client.DownloadDataTaskAsync(imageUrl);
                 Image image = Image.FromStream(new System.IO.MemoryStream(imageData));
 
                 // Visualizziamo le dimensioni dell'immagine
                 return image;
             }
+
 
             public static Image FillImage(Image image, AppSettings settings)
             {
@@ -492,28 +493,28 @@ namespace Nasa.Core
                 return Color.FromArgb(avgR, avgG, avgB);
             }
 
-            public static async Task<Image> GetVideoThumbnail(string videoUrl)
+            public static async Task<Image> GetVideoThumbnailAsync(string videoUrl)
             {
-
                 string id = string.Empty;
                 string url = "";
 
-                //YOTUBE
+                // YOUTUBE
                 Match youtubeMatch = new Regex(@"youtu(?:\.be|be\.com)/(?:.*v(?:/|=)|(?:.*/)?)([a-zA-Z0-9-_]+)").Match(videoUrl);
                 if (youtubeMatch.Success)
                 {
                     id = youtubeMatch.Groups[1].Value;
-                    url = String.Format("http://i.ytimg.com/vi/{0}/maxresdefault.jpg", id);
+                    url = string.Format("http://i.ytimg.com/vi/{0}/maxresdefault.jpg", id);
                 }
 
-                //VIMEO
+                // VIMEO
                 Match vimeoMatch = new Regex(@"(?:https?:\/\/)?(?:www\.)?vimeo\.com\/(?:channels\/(?:\w+\/)?|groups\/([^\/]*)\/videos\/|album\/(\d+)\/video\/|)(\d+)(?:[?]?.*)").Match(videoUrl);
                 if (vimeoMatch.Success)
                 {
                     id = vimeoMatch.Groups[3].Value;
                     url = GetUrlFromJson(id);
                 }
-                //VIMEO 2
+
+                // VIMEO 2
                 Match vimeoMatch2 = new Regex(@"^//player\.vimeo\.com/video/(\d+)\b").Match(videoUrl);
                 if (vimeoMatch2.Success)
                 {
@@ -521,10 +522,11 @@ namespace Nasa.Core
                     url = GetUrlFromJson(id);
                 }
 
-                Image img = GetImage(url);
+                Image img = await GetImageAsync(url);
 
                 return img;
             }
+
         }
     }
 }

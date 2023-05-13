@@ -10,14 +10,15 @@ namespace Nasa.Core
         public NasaAPI(string apikey) {
             key = apikey;
         }
-        internal APOD PictureOfDay(AppSettings settings)
+
+        internal async Task<APOD> PictureOfDayAsync(AppSettings settings)
         {
             var client = new RestClient(settings.Endpoint);
             var request = new RestRequest("/planetary/apod", Method.Get);
             request.RequestFormat = DataFormat.Json;
             request.AddQueryParameter("api_key", settings.ApiKey);
 
-            RestResponse response = client.Execute(request);
+            RestResponse response = await client.ExecuteAsync(request);
 
             if (response.StatusCode == System.Net.HttpStatusCode.OK)
             {
@@ -36,5 +37,6 @@ namespace Nasa.Core
                 throw new Exception(response.ErrorMessage);
             }
         }
+
     }
 }

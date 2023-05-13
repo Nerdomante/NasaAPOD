@@ -35,12 +35,10 @@ namespace Nasa.Core
             {
                 Icon = new Icon("Res/icon.ico"),
                 ContextMenuStrip = menu,
-                Visible = true
+                Visible = true,
+                Text = $"Updating...".Truncate(127)
             };
 
-            UpdateWallpaper();
-
-            // Listen to notification activation
             ToastNotificationManagerCompat.OnActivated += toastArgs =>
             {
                 // Obtain the arguments from the notification
@@ -63,6 +61,8 @@ namespace Nasa.Core
                     infoBox.ShowDialog();
                 }
             };
+
+            UpdateWallpaperAsync();
         }
 
         private void Active(object? sender, EventArgs e)
@@ -74,7 +74,7 @@ namespace Nasa.Core
                 env.checkForTime = new System.Timers.Timer(TimerInterval(env.settings));
                 env.checkForTime.Elapsed += new ElapsedEventHandler(checkForTime_Elapsed);
                 env.checkForTime.Enabled = true;
-                UpdateWallpaper();
+                UpdateWallpaperAsync();
             }
             else
             {
@@ -85,9 +85,9 @@ namespace Nasa.Core
             }
         }
 
-        private void Force(object? sender, EventArgs e)
+        private async void Force(object? sender, EventArgs e)
         {
-            UpdateWallpaper(true);
+            await UpdateWallpaperAsync(true);
         }
 
         private void Info(object? sender, EventArgs e)
@@ -104,6 +104,7 @@ namespace Nasa.Core
                 infoBox.ShowDialog();
             }
         }
+
         private void Exit(object sender, EventArgs e)
         {
             // Hide tray icon, otherwise it will remain shown until user mouses over it
@@ -120,11 +121,13 @@ namespace Nasa.Core
 
             System.Windows.Forms.Application.Exit();
         }
-        void checkForTime_Elapsed(object sender, ElapsedEventArgs e)
+
+        private async void checkForTime_Elapsed(object sender, ElapsedEventArgs e)
         {
-            UpdateWallpaper();
+            await UpdateWallpaperAsync();
         }
-        private void UpdateWallpaper(bool forced = false)
+
+        private async Task UpdateWallpaperAsync(bool forced = false)
         {
             try
             {
@@ -133,7 +136,7 @@ namespace Nasa.Core
                     throw new Exception("Internet connection was lost");
                 }
                 NasaAPI nasa = new NasaAPI(env.settings.ApiKey);
-                APOD apod = nasa.PictureOfDay(env.settings);
+                APOD apod = await nasa.PictureOfDayAsync(env.settings);
 
                 string tooltip = "Nasa APOD" +
                     Environment.NewLine +
@@ -147,17 +150,17 @@ namespace Nasa.Core
 
                 if (!File.Exists(Globals.storageFileName))
                 {
-                    SetWallpaper(apod);
+                    await SetWallpaperAsync(apod);
                 }
                 else
                 {
                     string oldJsonAPOD = File.ReadAllText(Globals.storageFileName);
                     APOD oldJsonObject = JsonConvert.DeserializeObject<APOD>(oldJsonAPOD);
 
-                   if (Convert.ToDateTime(apod.date) > Convert.ToDateTime(oldJsonObject.date) || forced)
-                   {
-                        SetWallpaper(apod);
-                   }
+                    if (Convert.ToDateTime(apod.date) > Convert.ToDateTime(oldJsonObject.date) || forced)
+                    {
+                        await SetWallpaperAsync(apod);
+                    }
                 }
             }
             catch (Exception ex)
@@ -166,7 +169,7 @@ namespace Nasa.Core
             }
         }
 
-        private void SetWallpaper(APOD apod)
+        private async Task SetWallpaperAsync(APOD apod)
         {
             File.WriteAllText(Globals.storageFileName, JsonConvert.SerializeObject(apod));
 
@@ -175,27 +178,27 @@ namespace Nasa.Core
 
             if (apod.media_type.ToLower() == "video")
             {
-                img = Images.GetVideoThumbnail(apod.url).Result;
+                img = await Images.GetVideoThumbnailAsync(apod.url);
             }
             else
             {
                 try
                 {
-                    img = Images.GetImage(apod.hdurl);
+                    img = await Images.GetImageAsync(apod.hdurl);
                 }
-                catch(WebException ex)
+                catch (WebException ex)
                 {
-                    img = Images.GetImage(apod.url);
+                    img = await Images.GetImageAsync(apod.url);
                 }
             }
-            
+
             if (img.Height > img.Width || (img.Height - img.Width) <= env.settings.Ratio)
             {
                 if (img.Height >= Screen.PrimaryScreen.Bounds.Height || (Screen.PrimaryScreen.Bounds.Height - img.Height) <= env.settings.ScaleThresholdHeight)
                 {
                     img = Images.ScaleImage(img, Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
                 }
-                if((Screen.PrimaryScreen.Bounds.Width - img.Width) <= env.settings.ScaleThresholdWidth)
+                if ((Screen.PrimaryScreen.Bounds.Width - img.Width) <= env.settings.ScaleThresholdWidth)
                 {
                     wall = Images.Save(img);
                     Wallpaper.Set(wall, Wallpaper.Style.Fill);
@@ -216,5 +219,6 @@ namespace Nasa.Core
 
             ToastManager.Notify(apod);
         }
+
     }
 }
