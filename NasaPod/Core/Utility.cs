@@ -2,6 +2,7 @@
 using Newtonsoft.Json.Linq;
 using System.Drawing.Imaging;
 using System.Net;
+using System.Net.NetworkInformation;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using System.Web;
@@ -58,7 +59,23 @@ namespace Nasa.Core
             public NotifyIcon trayIcon;
             public AppSettings? settings { get; set; }
             public System.Timers.Timer checkForTime { get; set; }
-        }        
+        }
+
+        public static bool IsInternetAvailable(string endpoint)
+        {
+            try
+            {
+                using (var client = new WebClient())
+                using (var stream = client.OpenRead(endpoint))
+                {
+                    return true;
+                }
+            }
+            catch
+            {
+                return false;
+            }
+        }
 
         public static double TimerInterval(AppSettings settings)
         {
