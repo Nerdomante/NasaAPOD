@@ -151,7 +151,10 @@ namespace Nasa.Core
                     if (Convert.ToDateTime(DateTime.Now.Date) > Convert.ToDateTime(apod.date) || forced)
                     {
                         apod = await nasa.PictureOfDayAsync(env.settings);
-                        await SetWallpaperAsync(apod);
+                        if (Convert.ToDateTime(JsonConvert.DeserializeObject<APOD>(oldJsonAPOD).date) > Convert.ToDateTime(apod.date) || forced)
+                        {
+                            await SetWallpaperAsync(apod);
+                        }
                     }
                 }
 

@@ -79,8 +79,14 @@ namespace Nasa.Core
 
         public static double TimerInterval(AppSettings settings)
         {
+
+#if DEBUG
+            double timerInterval = 60000; // one minute in debugging
+#else
             double timerInterval = 60 * 60 * settings.HoursInterval * 1000; // milliseconds to one hour
+#endif
             return timerInterval;
+
         }
 
         /// <summary>
