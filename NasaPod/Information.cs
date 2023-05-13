@@ -1,7 +1,7 @@
 ﻿using Nasa.Core;
 using Nasa.Model.Nasa;
-using Newtonsoft.Json;
 using System.Diagnostics;
+using System.Text.Json;
 using static Nasa.Core.Utility;
 
 namespace Nasa
@@ -41,7 +41,7 @@ namespace Nasa
         private void TranslateENG_Click(object sender, EventArgs e)
         {
             string oldJsonAPOD = File.ReadAllText(Globals.storageFileName);
-            APOD oldJsonObject = JsonConvert.DeserializeObject<APOD>(oldJsonAPOD);
+            APOD oldJsonObject = JsonSerializer.Deserialize<APOD>(oldJsonAPOD);
 
             Description.Text = oldJsonObject.explanation;
             TranslateLANG.Visible = true;
