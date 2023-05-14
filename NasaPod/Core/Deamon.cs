@@ -147,11 +147,12 @@ namespace Nasa.Core
                 {
                     string oldJsonAPOD = File.ReadAllText(Globals.storageFileName);
                     apod = JsonSerializer.Deserialize<APOD>(oldJsonAPOD);
+                    APOD oldapod = JsonSerializer.Deserialize<APOD>(oldJsonAPOD);
 
-                    if (Convert.ToDateTime(DateTime.Now.Date) > Convert.ToDateTime(apod.date) || forced)
+                    if (Convert.ToDateTime(DateTime.Now.Date) > Convert.ToDateTime(oldapod.date) || forced)
                     {
                         apod = await nasa.PictureOfDayAsync(env.settings);
-                        if (Convert.ToDateTime(JsonSerializer.Deserialize<APOD>(oldJsonAPOD).date) > Convert.ToDateTime(apod.date) || forced)
+                        if (Convert.ToDateTime(oldapod.date) < Convert.ToDateTime(apod.date) || forced)
                         {
                             await SetWallpaperAsync(apod);
                         }
