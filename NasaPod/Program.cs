@@ -18,7 +18,7 @@ namespace Nasa.Core
             {
                 if (!mutex.WaitOne(0, false))
                 {
-                    MessageBox.Show("Servizio già in esecuzione");
+                    MessageBox.Show($"{AppDomain.CurrentDomain.FriendlyName}.exe already running.");
                     return;
                 }
                 Application.Run(new Deamon(configuration));

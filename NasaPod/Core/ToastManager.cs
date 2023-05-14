@@ -8,18 +8,19 @@ namespace Nasa.Core
         public static void Pause()
         {
             new ToastContentBuilder()
-                .AddText("Servizio in pausa", AdaptiveTextStyle.Title)
-                .AddText("Non verranno più cercate immagini del giorno.", AdaptiveTextStyle.CaptionSubtle)
-                .AddAppLogoOverride(new Uri("file:///" + Path.GetFullPath(@"Res\icon.ico")))
-                .Show();
+            .AddText("Service on pause", AdaptiveTextStyle.Title)
+            .AddText("No more daily image searches will be performed.", AdaptiveTextStyle.CaptionSubtle)
+            .AddAppLogoOverride(new Uri("file:///" + Path.GetFullPath(@"Res\icon.ico")))
+            .Show();
         }
-        public static void Stop() 
+
+        public static void Stop()
         {
             new ToastContentBuilder()
-                .AddText("Servizio interrotto")
-                .AddText("Non verranno più cercate immagini del giorno.")
-                .AddAppLogoOverride(new Uri("file:///" + Path.GetFullPath(@"Res\icon.ico")))
-                .Show();
+            .AddText("Service interrupted")
+            .AddText("No more daily image searches will be performed.")
+            .AddAppLogoOverride(new Uri("file:///" + Path.GetFullPath(@"Res\icon.ico")))
+            .Show();
         }
         public static void Notify(APOD apod)
         {
