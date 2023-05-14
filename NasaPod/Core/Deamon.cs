@@ -1,6 +1,8 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Toolkit.Uwp.Notifications;
 using Nasa.Model.Nasa;
+using System;
+using System.Diagnostics;
 using System.Net;
 using System.Text.Json;
 using System.Timers;
@@ -19,16 +21,23 @@ namespace Nasa.Core
             env.checkForTime.Elapsed += new ElapsedEventHandler(checkForTime_Elapsed);
             env.checkForTime.Enabled = true;
 
-            ToolStripMenuItem active = new ToolStripMenuItem("Active", null, new EventHandler(Active), "Active");
+            ToolStripMenuItem active = new ToolStripMenuItem("Pause", Image.FromFile(Application.StartupPath + "/Res/UI/pause.png"), new EventHandler(Active), "Pause");
+            active.ImageScaling = ToolStripItemImageScaling.SizeToFit;
             active.Checked = true;
-            ToolStripMenuItem force = new ToolStripMenuItem("Update", null, new EventHandler(Force), "Update");
-            ToolStripMenuItem info = new ToolStripMenuItem("Info", null, new EventHandler(Info), "Info");
-            ToolStripMenuItem exit = new ToolStripMenuItem("Exit", null, new EventHandler(Exit), "Exit");
+            ToolStripMenuItem info = new ToolStripMenuItem("APOD's Info", Image.FromFile(Application.StartupPath+"/Res/UI/telescope.png"), new EventHandler(Info), "APOD's Info");
+            info.ImageScaling = ToolStripItemImageScaling.SizeToFit;
+            ToolStripMenuItem force = new ToolStripMenuItem("Update", Image.FromFile(Application.StartupPath + "/Res/UI/reload.png"), new EventHandler(Force), "Update");
+            force.ImageScaling = ToolStripItemImageScaling.SizeToFit;
+            ToolStripMenuItem about = new ToolStripMenuItem("About", Image.FromFile(Application.StartupPath + "/Res/UI/info.png"), new EventHandler(About), "About");
+            about.ImageScaling = ToolStripItemImageScaling.SizeToFit;
+            ToolStripMenuItem exit = new ToolStripMenuItem("Exit", Image.FromFile(Application.StartupPath + "/Res/UI/exit.png"), new EventHandler(Exit), "Exit");
 
             ContextMenuStrip menu = new ContextMenuStrip();
-            menu.Items.Add(active);
-            menu.Items.Add(force);
+            
             menu.Items.Add(info);
+            menu.Items.Add(force);
+            menu.Items.Add(active);
+            menu.Items.Add(about);
             menu.Items.Add(exit);
 
             env.trayIcon = new NotifyIcon()
@@ -65,12 +74,35 @@ namespace Nasa.Core
             UpdateWallpaperAsync();
         }
 
+        private void About(object? sender, EventArgs e)
+        {
+            string url = "https://github.com/Nerdomante/NasaAPOD";
+
+            try
+            {
+                Process.Start(new ProcessStartInfo
+                {
+                    FileName = url,
+                    UseShellExecute = true
+                });
+            }
+            catch (Exception ex)
+            {
+                // Gestisci eventuali eccezioni
+                Console.WriteLine("Errore durante l'apertura dell'URL: " + ex.Message);
+            }
+        }
+
         private void Active(object? sender, EventArgs e)
         {
             ((ToolStripMenuItem)sender).Checked = !((ToolStripMenuItem)sender).Checked;
 
             if (((ToolStripMenuItem)sender).Checked)
             {
+                ((ToolStripMenuItem)sender).Image = Image.FromFile(Application.StartupPath + "/Res/UI/pause.png");
+                ((ToolStripMenuItem)sender).Text = "Pause";
+                ((ToolStripMenuItem)sender).ImageScaling = ToolStripItemImageScaling.SizeToFit;
+
                 env.checkForTime = new System.Timers.Timer(TimerInterval(env.settings));
                 env.checkForTime.Elapsed += new ElapsedEventHandler(checkForTime_Elapsed);
                 env.checkForTime.Enabled = true;
@@ -80,6 +112,10 @@ namespace Nasa.Core
             {
                 env.checkForTime.Stop();
                 env.checkForTime.Enabled = false;
+
+                ((ToolStripMenuItem)sender).Image = Image.FromFile(Application.StartupPath + "/Res/UI/resume.png");
+                ((ToolStripMenuItem)sender).Text = "Resume";
+                ((ToolStripMenuItem)sender).ImageScaling = ToolStripItemImageScaling.SizeToFit;
 
                 ToastManager.Pause();
             }
