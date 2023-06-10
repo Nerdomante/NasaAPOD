@@ -17,6 +17,11 @@
     <ApplicationIcon>Res\icon.ico</ApplicationIcon>
     <UseWPF>False</UseWPF>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+	<SignAssembly>False</SignAssembly>
+	<PackageProjectUrl>https://github.com/Nerdomante/NasaAPOD</PackageProjectUrl>
+	<RepositoryUrl>https://github.com/Nerdomante/NasaAPOD</RepositoryUrl>
+	<AssemblyVersion>1.1.9</AssemblyVersion>
+	<FileVersion>1.1.9</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>

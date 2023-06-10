@@ -15,6 +15,9 @@ namespace Nasa.Core
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
+            Version currentVersion = VersionChecker.GetApplicationVersion();
+            VersionChecker.CheckProjectVersion("Nerdomante", "NasaAPOD", currentVersion);
+
             using (Mutex mutex = new Mutex(false, "Global\\" + appGuid))
             {
                 if (!mutex.WaitOne(0, false))
