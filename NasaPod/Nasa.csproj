@@ -20,8 +20,8 @@
 	<SignAssembly>False</SignAssembly>
 	<PackageProjectUrl>https://github.com/Nerdomante/NasaAPOD</PackageProjectUrl>
 	<RepositoryUrl>https://github.com/Nerdomante/NasaAPOD</RepositoryUrl>
-	<AssemblyVersion>1.1.9</AssemblyVersion>
-	<FileVersion>1.1.9</FileVersion>
+	<AssemblyVersion>1.1.10</AssemblyVersion>
+	<FileVersion>1.1.10</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
