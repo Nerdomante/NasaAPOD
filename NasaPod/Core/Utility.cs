@@ -115,7 +115,7 @@ namespace Nasa.Core
                     var response = client.GetStringAsync(url).Result;
 
                     response = response.Substring(4, response.IndexOf("\"", 4, StringComparison.Ordinal) - 4);
-                    response = response.Replace("\\u200b​​​​​​​​​​​​​​​", "");
+                    response = response.Replace("\\u200b​​​​​​​​​​​​​​​", "", StringComparison.InvariantCulture);
                     translated.Add(response + " ");
                 }
             }
