@@ -2,6 +2,7 @@
 using System.Drawing.Imaging;
 using System.Net;
 using System.Runtime.InteropServices;
+using System.Text;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Web;
@@ -109,13 +110,13 @@ namespace Nasa.Core
                 if (!String.IsNullOrEmpty(s.Trim()))
                 {
                     string url = $"https://translate.googleapis.com/translate_a/single?client=gtx&sl={fromLang}&tl={toLang}&dt=t&q={HttpUtility.UrlEncode(s)}";
-                    WebClient webClient = new WebClient
-                    {
-                        Encoding = System.Text.Encoding.UTF8
-                    };
-                    string result = webClient.DownloadString(url);
-                    result = result.Substring(4, result.IndexOf("\"", 4, StringComparison.Ordinal) - 4);
-                    translated.Add(result + " ");
+                    
+                    var client = new HttpClient();
+                    var response = client.GetStringAsync(url).Result;
+
+                    response = response.Substring(4, response.IndexOf("\"", 4, StringComparison.Ordinal) - 4);
+                    response = response.Replace("\\u200b​​​​​​​​​​​​​​​", "");
+                    translated.Add(response + " ");
                 }
             }
             string translation = "";
