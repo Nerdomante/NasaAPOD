@@ -112,7 +112,7 @@ namespace Nasa.Core
                     string url = $"https://translate.googleapis.com/translate_a/single?client=gtx&sl={fromLang}&tl={toLang}&dt=t&q={HttpUtility.UrlEncode(s)}";
                     
                     var client = new HttpClient();
-                    var response = await client.GetStringAsync(url);
+                    var response = client.GetStringAsync(url).Result;
 
                     response = response.Substring(4, response.IndexOf("\"", 4, StringComparison.Ordinal) - 4);
                     response = response.Replace("\\u200b​​​​​​​​​​​​​​​", "", StringComparison.InvariantCulture);
