@@ -11,7 +11,7 @@ namespace Nasa.Core
         static void Main()
         {
             IConfigurationBuilder builder = new ConfigurationBuilder().AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
-            IConfiguration configuration = builder.Build();
+            IConfigurationRoot configuration = builder.Build();
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 

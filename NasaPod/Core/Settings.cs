@@ -1,5 +1,9 @@
 ﻿namespace Nasa.Core
 {
+    public class JsonConfig
+    {
+        public AppSettings AppSettings { get; set; }
+    }
     public class AppSettings
     {
         public int BlurLevel { get; set; }

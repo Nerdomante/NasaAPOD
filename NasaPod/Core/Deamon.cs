@@ -14,30 +14,35 @@ namespace Nasa.Core
     public class Deamon : ApplicationContext
     {
         Globals env = new Globals();
-        public Deamon(IConfiguration config)
+        IConfigurationRoot _config;
+        public Deamon(IConfigurationRoot config)
         {
+            _config = config;
             env.settings = config.GetSection("AppSettings").Get<AppSettings>();
             env.checkForTime = new System.Timers.Timer(TimerInterval(env.settings));
             env.checkForTime.Elapsed += new ElapsedEventHandler(checkForTime_Elapsed);
             env.checkForTime.Enabled = true;
 
-            ToolStripMenuItem active = new ToolStripMenuItem("Pause", Image.FromFile(Application.StartupPath + "/Res/UI/pause.png"), new EventHandler(Active), "Pause");
-            active.ImageScaling = ToolStripItemImageScaling.SizeToFit;
-            active.Checked = true;
-            ToolStripMenuItem info = new ToolStripMenuItem("APOD's Info", Image.FromFile(Application.StartupPath+"/Res/UI/telescope.png"), new EventHandler(Info), "APOD's Info");
+            ToolStripMenuItem info = new ToolStripMenuItem("APOD's Info", Image.FromFile(Application.StartupPath + "/Res/UI/telescope.png"), new EventHandler(Info), "APOD's Info");
             info.ImageScaling = ToolStripItemImageScaling.SizeToFit;
             ToolStripMenuItem force = new ToolStripMenuItem("Update", Image.FromFile(Application.StartupPath + "/Res/UI/reload.png"), new EventHandler(Force), "Update");
             force.ImageScaling = ToolStripItemImageScaling.SizeToFit;
+            ToolStripMenuItem active = new ToolStripMenuItem("Pause", Image.FromFile(Application.StartupPath + "/Res/UI/pause.png"), new EventHandler(Active), "Pause");
+            active.ImageScaling = ToolStripItemImageScaling.SizeToFit;
+            active.Checked = true;
             ToolStripMenuItem about = new ToolStripMenuItem("About", Image.FromFile(Application.StartupPath + "/Res/UI/info.png"), new EventHandler(About), "About");
             about.ImageScaling = ToolStripItemImageScaling.SizeToFit;
+            ToolStripMenuItem settings = new ToolStripMenuItem("Settings", Image.FromFile(Application.StartupPath + "/Res/UI/gear.png"), new EventHandler(Settings), "Settings");
+            settings.ImageScaling = ToolStripItemImageScaling.SizeToFit;
             ToolStripMenuItem exit = new ToolStripMenuItem("Exit", Image.FromFile(Application.StartupPath + "/Res/UI/exit.png"), new EventHandler(Exit), "Exit");
-
-            ContextMenuStrip menu = new ContextMenuStrip();
+            exit.ImageScaling = ToolStripItemImageScaling.SizeToFit;
             
+            ContextMenuStrip menu = new ContextMenuStrip();
             menu.Items.Add(info);
             menu.Items.Add(force);
             menu.Items.Add(active);
             menu.Items.Add(about);
+            menu.Items.Add(settings);
             menu.Items.Add(exit);
 
             env.trayIcon = new NotifyIcon()
@@ -74,23 +79,24 @@ namespace Nasa.Core
             UpdateWallpaperAsync();
         }
 
-        private void About(object? sender, EventArgs e)
+        private void Info(object? sender, EventArgs e)
         {
-            string url = "https://github.com/Nerdomante/NasaAPOD";
+            if (File.Exists(Globals.storageFileName))
+            {
+                string oldJsonAPOD = File.ReadAllText(Globals.storageFileName);
+                APOD oldJsonObject = JsonSerializer.Deserialize<APOD>(oldJsonAPOD);
 
-            try
-            {
-                Process.Start(new ProcessStartInfo
-                {
-                    FileName = url,
-                    UseShellExecute = true
-                });
+                string description = oldJsonObject.explanation +
+                    (String.IsNullOrEmpty(oldJsonObject.copyright) ? Environment.NewLine + Environment.NewLine + "Nasa © " + DateTime.Now.Year.ToString() : Environment.NewLine + Environment.NewLine + oldJsonObject.copyright.Replace("\n", " ").Replace("\r", " ") + " © " + DateTime.Now.Year.ToString());
+
+                Information infoBox = new Information(oldJsonObject.title, description, env);
+                infoBox.ShowDialog();
             }
-            catch (Exception ex)
-            {
-                // Gestisci eventuali eccezioni
-                Console.WriteLine("Errore durante l'apertura dell'URL: " + ex.Message);
-            }
+        }
+
+        private async void Force(object? sender, EventArgs e)
+        {
+            await UpdateWallpaperAsync(true);
         }
 
         private void Active(object? sender, EventArgs e)
@@ -121,24 +127,32 @@ namespace Nasa.Core
             }
         }
 
-        private async void Force(object? sender, EventArgs e)
+        private void About(object? sender, EventArgs e)
         {
-            await UpdateWallpaperAsync(true);
+            string url = "https://github.com/Nerdomante/NasaAPOD";
+
+            try
+            {
+                Process.Start(new ProcessStartInfo
+                {
+                    FileName = url,
+                    UseShellExecute = true
+                });
+            }
+            catch (Exception ex)
+            {
+                // Gestisci eventuali eccezioni
+                Console.WriteLine("Errore durante l'apertura dell'URL: " + ex.Message);
+            }
         }
 
-        private void Info(object? sender, EventArgs e)
+        private void Settings(object? sender, EventArgs e)
         {
-            if (File.Exists(Globals.storageFileName))
+            FormSettings settingsBox = new FormSettings(_config);
+            if (settingsBox.Visible == false)
             {
-                string oldJsonAPOD = File.ReadAllText(Globals.storageFileName);
-                APOD oldJsonObject = JsonSerializer.Deserialize<APOD>(oldJsonAPOD);
-
-                string description = oldJsonObject.explanation +
-                    (String.IsNullOrEmpty(oldJsonObject.copyright) ? Environment.NewLine + Environment.NewLine + "Nasa © " + DateTime.Now.Year.ToString() : Environment.NewLine + Environment.NewLine + oldJsonObject.copyright.Replace("\n", " ").Replace("\r", " ") + " © " + DateTime.Now.Year.ToString());
-
-                Information infoBox = new Information(oldJsonObject.title, description, env);
-                infoBox.ShowDialog();
-            }
+                settingsBox.ShowDialog();
+            } 
         }
 
         private void Exit(object sender, EventArgs e)

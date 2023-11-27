@@ -26,8 +26,9 @@
         /// Required method for Designer support - do not modify
         /// the contents of this method with the code editor.
         /// </summary>
-        private void InitializeComponent(string title, string description)
+        private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Information));
             Description = new RichTextBox();
             Title = new Label();
             More = new Button();
@@ -37,16 +38,15 @@
             // 
             // Description
             // 
+            Description.BorderStyle = BorderStyle.None;
             Description.Location = new Point(10, 25);
             Description.Name = "Description";
             Description.ReadOnly = true;
             Description.ScrollBars = RichTextBoxScrollBars.Vertical;
-            Description.ShowSelectionMargin = false;
             Description.Size = new Size(380, 250);
             Description.TabIndex = 0;
             Description.TabStop = false;
-            Description.Text = description;
-            Description.BorderStyle = BorderStyle.None;
+            Description.Text = "";
             // 
             // Title
             // 
@@ -54,9 +54,8 @@
             Title.Font = new Font("Segoe UI", 10F, FontStyle.Bold, GraphicsUnit.Point);
             Title.Location = new Point(10, 0);
             Title.Name = "Title";
-            Title.Size = new Size(54, 50);
+            Title.Size = new Size(0, 19);
             Title.TabIndex = 1;
-            Title.Text = title;
             // 
             // More
             // 
@@ -71,23 +70,23 @@
             // TranslateLANG
             // 
             TranslateLANG.Location = new Point(250, 285);
-            TranslateLANG.Name = "Translate";
+            TranslateLANG.Name = "TranslateLANG";
             TranslateLANG.Size = new Size(65, 25);
             TranslateLANG.TabIndex = 4;
             TranslateLANG.Text = "Translate";
             TranslateLANG.UseVisualStyleBackColor = true;
             TranslateLANG.Click += TranslateLANG_Click;
             // 
-            // TranslateENG
+            // TranslateEN
             // 
             TranslateEN.Location = new Point(250, 285);
-            TranslateEN.Name = "Translate";
+            TranslateEN.Name = "TranslateEN";
             TranslateEN.Size = new Size(65, 25);
             TranslateEN.TabIndex = 4;
             TranslateEN.Text = "Translate";
             TranslateEN.UseVisualStyleBackColor = true;
-            TranslateEN.Click += TranslateENG_Click;
             TranslateEN.Visible = false;
+            TranslateEN.Click += TranslateENG_Click;
             // 
             // Information
             // 
@@ -99,13 +98,13 @@
             Controls.Add(TranslateEN);
             Controls.Add(Title);
             Controls.Add(Description);
-            Name = "Information";
-            Text = "Information";
             FormBorderStyle = FormBorderStyle.FixedSingle;
+            Icon = (Icon)resources.GetObject("$this.Icon");
             MaximizeBox = false;
             MinimizeBox = false;
-            Icon = new Icon("Res/icon.ico");
+            Name = "Information";
             StartPosition = FormStartPosition.CenterScreen;
+            Text = "Information";
             ResumeLayout(false);
             PerformLayout();
         }

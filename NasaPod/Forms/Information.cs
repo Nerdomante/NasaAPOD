@@ -12,7 +12,10 @@ namespace Nasa
         public Information(string title, string description, Globals env)
         {
             _globals = env;
-            InitializeComponent(title, description);
+            InitializeComponent();
+
+            Title.Text = title;
+            Description.Text = description;
         }
 
         private void More_Click(object sender, EventArgs e)
@@ -33,7 +36,7 @@ namespace Nasa
 
         private void TranslateLANG_Click(object sender, EventArgs e)
         {
-            string translated = Utility.Translate(Description.Text, "en", _globals.settings.Lang);
+            string translated = Utility.Translate(Description.Text, "en", _globals.settings.Lang).Result;
             Description.Text = translated;
             TranslateLANG.Visible = false;
             TranslateEN.Visible = true;

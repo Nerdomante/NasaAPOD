@@ -96,7 +96,7 @@ namespace Nasa.Core
         /// <param name="fromLang">from language</param>
         /// <param name="toLang">to language</param>
         /// <returns><see cref="string"/> translated text</returns>
-        public static string Translate(string text, string fromLang, string toLang)
+        public static async Task<string> Translate(string text, string fromLang, string toLang)
         {
             string[] strArr = text.Split('\n');
             string description = strArr[0].Replace("\n", "").Replace("\r", "");
@@ -112,7 +112,7 @@ namespace Nasa.Core
                     string url = $"https://translate.googleapis.com/translate_a/single?client=gtx&sl={fromLang}&tl={toLang}&dt=t&q={HttpUtility.UrlEncode(s)}";
                     
                     var client = new HttpClient();
-                    var response = client.GetStringAsync(url).Result;
+                    var response = await client.GetStringAsync(url);
 
                     response = response.Substring(4, response.IndexOf("\"", 4, StringComparison.Ordinal) - 4);
                     response = response.Replace("\\u200b​​​​​​​​​​​​​​​", "", StringComparison.InvariantCulture);

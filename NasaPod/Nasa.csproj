@@ -20,8 +20,8 @@
 	<SignAssembly>False</SignAssembly>
 	<PackageProjectUrl>https://github.com/Nerdomante/NasaAPOD</PackageProjectUrl>
 	<RepositoryUrl>https://github.com/Nerdomante/NasaAPOD</RepositoryUrl>
-	<AssemblyVersion>1.2.0</AssemblyVersion>
-	<FileVersion>1.2.0</FileVersion>
+	<AssemblyVersion>1.2.1</AssemblyVersion>
+	<FileVersion>1.2.1</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -63,6 +63,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Res\UI\exit.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Res\UI\gear.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Res\UI\info.png">
