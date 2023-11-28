@@ -34,9 +34,9 @@ namespace Nasa
             }
         }
 
-        private void TranslateLANG_Click(object sender, EventArgs e)
+        private async void TranslateLANG_Click(object sender, EventArgs e)
         {
-            string translated = Utility.Translate(Description.Text, "en", _globals.settings.Lang).GetAwaiter().GetResult();
+            string translated = await Utility.Translate(Description.Text, "en", _globals.settings.Lang);
             Description.Text = translated;
             TranslateLANG.Visible = false;
             TranslateEN.Visible = true;
