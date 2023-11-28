@@ -12,10 +12,13 @@ namespace Nasa
     public partial class FormSettings : Form
     {
         IConfigurationRoot _config;
+        AppSettings _appSettings;
         public FormSettings(IConfigurationRoot config)
         {
             _config = config;
             AppSettings settings = config.GetSection("AppSettings").Get<AppSettings>();
+            _appSettings = settings;
+
             InitializeComponent();
 
             numericBlurLevel.Value = settings.BlurLevel;
@@ -85,7 +88,7 @@ namespace Nasa
             helperTooltip.SetToolTip(labelFillerTransparency, labelFillerTransparencyDesc);
         }
 
-        private void buttonSaveSettings_Click(object sender, EventArgs e)
+        private async void buttonSaveSettings_Click(object sender, EventArgs e)
         {
             // Percorso del file appsettings.json
             string appSettingsPath = "appsettings.json";
@@ -136,7 +139,8 @@ namespace Nasa
             // Salva le modifiche nel file appsettings.json
             File.WriteAllText(appSettingsPath, jsonConfig);
 
-            MessageBox.Show("Impostazioni salvate con successo.");
+            string savedMessage = await Utility.Translate("Changes Saved. Will take effect upon restarting the application.", "en", _appSettings.Lang);
+            MessageBox.Show(savedMessage);
         }
     }
 }
