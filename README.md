@@ -29,7 +29,7 @@ Also starring ⭐ the repo is appreciated!
 </Project>
 ```
 
-appsettings.json file contain all configurable values:
+appsettings.json file contain all configurable values, these can be also updated in settings panel of the application:
 
 ```
 {
