@@ -5,6 +5,7 @@ using System.Net.Http.Json;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Text.Json.Serialization.Converters;
+using System.Windows.Forms;
 using System.Xml;
 
 namespace Nasa
@@ -13,6 +14,8 @@ namespace Nasa
     {
         IConfigurationRoot _config;
         AppSettings _appSettings;
+        private Dictionary<string, string> languageDictionary;
+
         public FormSettings(IConfigurationRoot config)
         {
             _config = config;
@@ -25,12 +28,26 @@ namespace Nasa
             textBoxApiKey.Text = settings.ApiKey;
             textBoxEndpoint.Text = settings.Endpoint;
             numericHoursInterval.Value = settings.HoursInterval;
-            textBoxLanguage.Text = settings.Lang;
+
             textBoxFillerImage.Text = settings.FillerPath;
             numericRatio.Value = settings.Ratio;
             numericScaleThresholdHeight.Value = settings.ScaleThresholdHeight;
             numericScaleThresholdWidth.Value = settings.ScaleThresholdWidth;
             numericFillerTransparency.Value = settings.FillerTransparency;
+
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
+
+            // Chiama il tuo metodo per ottenere il dizionario delle lingue
+            Dictionary<string, string> languageDictionary = Languages.AllAsDictionary();
+
+            // Assegna il dizionario come origine dati per la ListBox
+            listBoxLanguages.DataSource = new BindingSource(languageDictionary, null);
+
+            // Imposta le proprietà DisplayMember e ValueMember
+            listBoxLanguages.DisplayMember = "Value";
+            listBoxLanguages.ValueMember = "Key";
+
+            listBoxLanguages.SelectedValue = settings.Lang;
 
             TranslateLabels(settings);
         }
@@ -97,7 +114,7 @@ namespace Nasa
             string apiKey = textBoxApiKey.Text;
             string endpoint = textBoxEndpoint.Text;
             string hoursInterval = numericHoursInterval.Text;
-            string lang = textBoxLanguage.Text;
+            string lang = listBoxLanguages.SelectedValue.ToString();
             string blurLevel = numericBlurLevel.Text;
             string fillerPath = textBoxFillerImage.Text;
             string ratio = numericRatio.Text;

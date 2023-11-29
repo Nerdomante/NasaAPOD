@@ -33,7 +33,6 @@
             labelBlurLevel = new Label();
             textBoxApiKey = new TextBox();
             textBoxEndpoint = new TextBox();
-            textBoxLanguage = new TextBox();
             textBoxFillerImage = new TextBox();
             labelApiKey = new Label();
             labelEndpoint = new Label();
@@ -52,6 +51,7 @@
             numericScaleThresholdWidth = new NumericUpDown();
             numericScaleThresholdHeight = new NumericUpDown();
             buttonSaveSettings = new Button();
+            listBoxLanguages = new ListBox();
             ((System.ComponentModel.ISupportInitialize)numericBlurLevel).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numericHoursInterval).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numericRatio).BeginInit();
@@ -63,44 +63,37 @@
             // labelBlurLevel
             // 
             labelBlurLevel.AutoSize = true;
-            labelBlurLevel.Location = new Point(12, 15);
+            labelBlurLevel.Location = new Point(305, 152);
             labelBlurLevel.Name = "labelBlurLevel";
-            labelBlurLevel.Size = new Size(58, 15);
+            labelBlurLevel.Size = new Size(45, 15);
             labelBlurLevel.TabIndex = 0;
-            labelBlurLevel.Text = "Blur Level";
+            labelBlurLevel.Text = "Blur Lvl";
             // 
             // textBoxApiKey
             // 
-            textBoxApiKey.Location = new Point(65, 41);
+            textBoxApiKey.Location = new Point(63, 9);
             textBoxApiKey.Name = "textBoxApiKey";
-            textBoxApiKey.Size = new Size(365, 23);
+            textBoxApiKey.Size = new Size(341, 23);
             textBoxApiKey.TabIndex = 2;
             // 
             // textBoxEndpoint
             // 
-            textBoxEndpoint.Location = new Point(76, 73);
+            textBoxEndpoint.Location = new Point(71, 38);
             textBoxEndpoint.Name = "textBoxEndpoint";
-            textBoxEndpoint.Size = new Size(354, 23);
+            textBoxEndpoint.Size = new Size(332, 23);
             textBoxEndpoint.TabIndex = 3;
-            // 
-            // textBoxLanguage
-            // 
-            textBoxLanguage.Location = new Point(191, 11);
-            textBoxLanguage.Name = "textBoxLanguage";
-            textBoxLanguage.Size = new Size(104, 23);
-            textBoxLanguage.TabIndex = 5;
             // 
             // textBoxFillerImage
             // 
-            textBoxFillerImage.Location = new Point(86, 102);
+            textBoxFillerImage.Location = new Point(84, 67);
             textBoxFillerImage.Name = "textBoxFillerImage";
-            textBoxFillerImage.Size = new Size(238, 23);
+            textBoxFillerImage.Size = new Size(320, 23);
             textBoxFillerImage.TabIndex = 6;
             // 
             // labelApiKey
             // 
             labelApiKey.AutoSize = true;
-            labelApiKey.Location = new Point(12, 44);
+            labelApiKey.Location = new Point(10, 12);
             labelApiKey.Name = "labelApiKey";
             labelApiKey.Size = new Size(47, 15);
             labelApiKey.TabIndex = 11;
@@ -109,7 +102,7 @@
             // labelEndpoint
             // 
             labelEndpoint.AutoSize = true;
-            labelEndpoint.Location = new Point(12, 76);
+            labelEndpoint.Location = new Point(10, 41);
             labelEndpoint.Name = "labelEndpoint";
             labelEndpoint.Size = new Size(55, 15);
             labelEndpoint.TabIndex = 12;
@@ -118,25 +111,25 @@
             // labelHoursInterval
             // 
             labelHoursInterval.AutoSize = true;
-            labelHoursInterval.Location = new Point(301, 15);
+            labelHoursInterval.Location = new Point(150, 118);
             labelHoursInterval.Name = "labelHoursInterval";
-            labelHoursInterval.Size = new Size(81, 15);
+            labelHoursInterval.Size = new Size(87, 15);
             labelHoursInterval.TabIndex = 13;
-            labelHoursInterval.Text = "Hours Interval";
+            labelHoursInterval.Text = "Hours Interaval";
             // 
             // labelLanguage
             // 
             labelLanguage.AutoSize = true;
-            labelLanguage.Location = new Point(126, 15);
+            labelLanguage.Location = new Point(10, 97);
             labelLanguage.Name = "labelLanguage";
-            labelLanguage.Size = new Size(59, 15);
+            labelLanguage.Size = new Size(62, 15);
             labelLanguage.TabIndex = 14;
-            labelLanguage.Text = "Language";
+            labelLanguage.Text = "Language:";
             // 
             // labelFillerPath
             // 
             labelFillerPath.AutoSize = true;
-            labelFillerPath.Location = new Point(12, 105);
+            labelFillerPath.Location = new Point(10, 70);
             labelFillerPath.Name = "labelFillerPath";
             labelFillerPath.Size = new Size(68, 15);
             labelFillerPath.TabIndex = 15;
@@ -145,7 +138,7 @@
             // labelRatio
             // 
             labelRatio.AutoSize = true;
-            labelRatio.Location = new Point(12, 137);
+            labelRatio.Location = new Point(305, 186);
             labelRatio.Name = "labelRatio";
             labelRatio.Size = new Size(34, 15);
             labelRatio.TabIndex = 16;
@@ -154,7 +147,7 @@
             // labelScaleThresholdHeight
             // 
             labelScaleThresholdHeight.AutoSize = true;
-            labelScaleThresholdHeight.Location = new Point(112, 137);
+            labelScaleThresholdHeight.Location = new Point(150, 186);
             labelScaleThresholdHeight.Name = "labelScaleThresholdHeight";
             labelScaleThresholdHeight.Size = new Size(107, 15);
             labelScaleThresholdHeight.TabIndex = 17;
@@ -163,7 +156,7 @@
             // labelScaleThresholdWidth
             // 
             labelScaleThresholdWidth.AutoSize = true;
-            labelScaleThresholdWidth.Location = new Point(275, 137);
+            labelScaleThresholdWidth.Location = new Point(150, 150);
             labelScaleThresholdWidth.Name = "labelScaleThresholdWidth";
             labelScaleThresholdWidth.Size = new Size(103, 15);
             labelScaleThresholdWidth.TabIndex = 18;
@@ -172,7 +165,7 @@
             // labelFillerTransparency
             // 
             labelFillerTransparency.AutoSize = true;
-            labelFillerTransparency.Location = new Point(330, 105);
+            labelFillerTransparency.Location = new Point(305, 118);
             labelFillerTransparency.Name = "labelFillerTransparency";
             labelFillerTransparency.Size = new Size(48, 15);
             labelFillerTransparency.TabIndex = 19;
@@ -190,57 +183,57 @@
             // 
             // numericBlurLevel
             // 
-            numericBlurLevel.Location = new Point(76, 12);
+            numericBlurLevel.Location = new Point(362, 150);
             numericBlurLevel.Maximum = new decimal(new int[] { 1000, 0, 0, 0 });
             numericBlurLevel.Name = "numericBlurLevel";
-            numericBlurLevel.Size = new Size(44, 23);
+            numericBlurLevel.Size = new Size(40, 23);
             numericBlurLevel.TabIndex = 21;
             // 
             // numericHoursInterval
             // 
-            numericHoursInterval.Location = new Point(388, 12);
+            numericHoursInterval.Location = new Point(259, 116);
             numericHoursInterval.Maximum = new decimal(new int[] { 1000, 0, 0, 0 });
             numericHoursInterval.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
             numericHoursInterval.Name = "numericHoursInterval";
-            numericHoursInterval.Size = new Size(42, 23);
+            numericHoursInterval.Size = new Size(40, 23);
             numericHoursInterval.TabIndex = 22;
             numericHoursInterval.Value = new decimal(new int[] { 1, 0, 0, 0 });
             // 
             // numericRatio
             // 
-            numericRatio.Location = new Point(52, 135);
+            numericRatio.Location = new Point(362, 184);
             numericRatio.Maximum = new decimal(new int[] { 1000, 0, 0, 0 });
             numericRatio.Name = "numericRatio";
-            numericRatio.Size = new Size(54, 23);
+            numericRatio.Size = new Size(40, 23);
             numericRatio.TabIndex = 23;
             // 
             // numericFillerTransparency
             // 
-            numericFillerTransparency.Location = new Point(384, 102);
+            numericFillerTransparency.Location = new Point(362, 116);
             numericFillerTransparency.Maximum = new decimal(new int[] { 1000, 0, 0, 0 });
             numericFillerTransparency.Name = "numericFillerTransparency";
-            numericFillerTransparency.Size = new Size(46, 23);
+            numericFillerTransparency.Size = new Size(40, 23);
             numericFillerTransparency.TabIndex = 24;
             // 
             // numericScaleThresholdWidth
             // 
-            numericScaleThresholdWidth.Location = new Point(384, 135);
+            numericScaleThresholdWidth.Location = new Point(259, 150);
             numericScaleThresholdWidth.Maximum = new decimal(new int[] { 1000, 0, 0, 0 });
             numericScaleThresholdWidth.Name = "numericScaleThresholdWidth";
-            numericScaleThresholdWidth.Size = new Size(46, 23);
+            numericScaleThresholdWidth.Size = new Size(40, 23);
             numericScaleThresholdWidth.TabIndex = 25;
             // 
             // numericScaleThresholdHeight
             // 
-            numericScaleThresholdHeight.Location = new Point(225, 135);
+            numericScaleThresholdHeight.Location = new Point(259, 184);
             numericScaleThresholdHeight.Maximum = new decimal(new int[] { 1000, 0, 0, 0 });
             numericScaleThresholdHeight.Name = "numericScaleThresholdHeight";
-            numericScaleThresholdHeight.Size = new Size(44, 23);
+            numericScaleThresholdHeight.Size = new Size(40, 23);
             numericScaleThresholdHeight.TabIndex = 26;
             // 
             // buttonSaveSettings
             // 
-            buttonSaveSettings.Location = new Point(357, 174);
+            buttonSaveSettings.Location = new Point(328, 216);
             buttonSaveSettings.Name = "buttonSaveSettings";
             buttonSaveSettings.Size = new Size(75, 23);
             buttonSaveSettings.TabIndex = 27;
@@ -248,11 +241,22 @@
             buttonSaveSettings.UseVisualStyleBackColor = true;
             buttonSaveSettings.Click += buttonSaveSettings_Click;
             // 
+            // listBoxLanguages
+            // 
+            listBoxLanguages.FormattingEnabled = true;
+            listBoxLanguages.ItemHeight = 15;
+            listBoxLanguages.Location = new Point(12, 115);
+            listBoxLanguages.Name = "listBoxLanguages";
+            listBoxLanguages.ScrollAlwaysVisible = true;
+            listBoxLanguages.Size = new Size(134, 124);
+            listBoxLanguages.TabIndex = 29;
+            // 
             // FormSettings
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(444, 208);
+            ClientSize = new Size(419, 251);
+            Controls.Add(listBoxLanguages);
             Controls.Add(buttonSaveSettings);
             Controls.Add(numericScaleThresholdHeight);
             Controls.Add(numericScaleThresholdWidth);
@@ -270,7 +274,6 @@
             Controls.Add(labelEndpoint);
             Controls.Add(labelApiKey);
             Controls.Add(textBoxFillerImage);
-            Controls.Add(textBoxLanguage);
             Controls.Add(textBoxEndpoint);
             Controls.Add(textBoxApiKey);
             Controls.Add(labelBlurLevel);
@@ -295,7 +298,6 @@
         private Label labelBlurLevel;
         private TextBox textBoxApiKey;
         private TextBox textBoxEndpoint;
-        private TextBox textBoxLanguage;
         private TextBox textBoxFillerImage;
         private Label labelApiKey;
         private Label labelEndpoint;
@@ -314,5 +316,6 @@
         private NumericUpDown numericScaleThresholdWidth;
         private NumericUpDown numericScaleThresholdHeight;
         private Button buttonSaveSettings;
+        private ListBox listBoxLanguages;
     }
 }
