@@ -156,7 +156,7 @@
             // labelScaleThresholdWidth
             // 
             labelScaleThresholdWidth.AutoSize = true;
-            labelScaleThresholdWidth.Location = new Point(150, 150);
+            labelScaleThresholdWidth.Location = new Point(150, 152);
             labelScaleThresholdWidth.Name = "labelScaleThresholdWidth";
             labelScaleThresholdWidth.Size = new Size(103, 15);
             labelScaleThresholdWidth.TabIndex = 18;
