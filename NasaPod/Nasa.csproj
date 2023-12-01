@@ -20,8 +20,8 @@
 	<SignAssembly>False</SignAssembly>
 	<PackageProjectUrl>https://github.com/Nerdomante/NasaAPOD</PackageProjectUrl>
 	<RepositoryUrl>https://github.com/Nerdomante/NasaAPOD</RepositoryUrl>
-	<AssemblyVersion>1.2.3</AssemblyVersion>
-	<FileVersion>1.2.3</FileVersion>
+	<AssemblyVersion>1.2.4</AssemblyVersion>
+	<FileVersion>1.2.4</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -32,6 +32,18 @@
 
   <ItemGroup>
     <None Remove="Nasa.csproj.vspscc" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <COMReference Include="IWshRuntimeLibrary">
+      <WrapperTool>tlbimp</WrapperTool>
+      <VersionMinor>0</VersionMinor>
+      <VersionMajor>1</VersionMajor>
+      <Guid>f935dc20-1cf0-11d0-adb9-00c04fd58a0b</Guid>
+      <Lcid>0</Lcid>
+      <Isolated>false</Isolated>
+      <EmbedInteropTypes>true</EmbedInteropTypes>
+    </COMReference>
   </ItemGroup>
 
   <ItemGroup>

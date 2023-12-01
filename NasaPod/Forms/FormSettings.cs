@@ -49,8 +49,52 @@ namespace Nasa
 
             listBoxLanguages.SelectedValue = settings.Lang;
 
+            checkBoxAutostart.Checked = ExistInAutostart();
+
             TranslateLabels(settings);
         }
+
+        private bool ExistInAutostart()
+        {
+            // Ottieni la cartella di avvio
+            string cartellaAvvio = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Startup));
+
+            // Ottieni il percorso dell'eseguibile dell'applicazione
+            string percorsoEseguibile = Application.ExecutablePath;
+
+            // Crea un collegamento nella cartella di avvio
+            string percorsoCollegamento = Path.Combine(cartellaAvvio, "Nasa.lnk");
+
+            // Copia il collegamento solo se non esiste già
+            return File.Exists(percorsoCollegamento);
+        }
+
+        private void ManageAutostart(bool autostart)
+        {
+            try
+            {
+                if (autostart)
+                {   
+                    // Copia il collegamento solo se non esiste già
+                    if (!ExistInAutostart())
+                    {
+                        IWshRuntimeLibrary.WshShell shell = new IWshRuntimeLibrary.WshShell();
+                        IWshRuntimeLibrary.IWshShortcut shortcut = (IWshRuntimeLibrary.IWshShortcut)shell.CreateShortcut(Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Startup)), "Nasa.lnk"));
+                        shortcut.TargetPath = Application.ExecutablePath;
+                        shortcut.Save();
+                    }
+                }
+                else
+                {
+                    File.Delete(Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Startup)), "Nasa.lnk"));
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Errore durante l'aggiunta del collegamento all'avvio: " + ex.Message, "Errore", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
 
         private async void TranslateLabels(AppSettings settings)
         {
@@ -121,6 +165,8 @@ namespace Nasa
             string scaleThresholdH = numericScaleThresholdHeight.Text;
             string scaleThresholdW = numericScaleThresholdWidth.Text;
             string fillerTransparency = numericFillerTransparency.Text;
+
+            ManageAutostart(checkBoxAutostart.Checked);
 
             // Modifica il parametro specifico in appsettings.json
             _config["ApiKey"] = apiKey;

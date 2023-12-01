@@ -52,6 +52,7 @@
             numericScaleThresholdHeight = new NumericUpDown();
             buttonSaveSettings = new Button();
             listBoxLanguages = new ListBox();
+            checkBoxAutostart = new CheckBox();
             ((System.ComponentModel.ISupportInitialize)numericBlurLevel).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numericHoursInterval).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numericRatio).BeginInit();
@@ -233,7 +234,7 @@
             // 
             // buttonSaveSettings
             // 
-            buttonSaveSettings.Location = new Point(328, 216);
+            buttonSaveSettings.Location = new Point(329, 217);
             buttonSaveSettings.Name = "buttonSaveSettings";
             buttonSaveSettings.Size = new Size(75, 23);
             buttonSaveSettings.TabIndex = 27;
@@ -251,11 +252,22 @@
             listBoxLanguages.Size = new Size(134, 124);
             listBoxLanguages.TabIndex = 29;
             // 
+            // checkBoxAutostart
+            // 
+            checkBoxAutostart.AutoSize = true;
+            checkBoxAutostart.Location = new Point(150, 220);
+            checkBoxAutostart.Name = "checkBoxAutostart";
+            checkBoxAutostart.Size = new Size(155, 19);
+            checkBoxAutostart.TabIndex = 30;
+            checkBoxAutostart.Text = "Start at Windows startup";
+            checkBoxAutostart.UseVisualStyleBackColor = true;
+            // 
             // FormSettings
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(419, 251);
+            Controls.Add(checkBoxAutostart);
             Controls.Add(listBoxLanguages);
             Controls.Add(buttonSaveSettings);
             Controls.Add(numericScaleThresholdHeight);
@@ -317,5 +329,6 @@
         private NumericUpDown numericScaleThresholdHeight;
         private Button buttonSaveSettings;
         private ListBox listBoxLanguages;
+        private CheckBox checkBoxAutostart;
     }
 }
