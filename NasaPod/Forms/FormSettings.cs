@@ -81,6 +81,7 @@ namespace Nasa
                         IWshRuntimeLibrary.WshShell shell = new IWshRuntimeLibrary.WshShell();
                         IWshRuntimeLibrary.IWshShortcut shortcut = (IWshRuntimeLibrary.IWshShortcut)shell.CreateShortcut(Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Startup)), "Nasa.lnk"));
                         shortcut.TargetPath = Application.ExecutablePath;
+                        shortcut.WorkingDirectory = Path.GetDirectoryName(Application.ExecutablePath);
                         shortcut.Save();
                     }
                 }
