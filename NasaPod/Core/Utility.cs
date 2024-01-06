@@ -287,14 +287,20 @@ namespace Nasa.Core
         {
             public static async Task<Image> GetImageAsync(string imageUrl)
             {
-                WebClient client = new WebClient();
-                byte[] imageData = await client.DownloadDataTaskAsync(imageUrl);
-                Image image = Image.FromStream(new System.IO.MemoryStream(imageData));
+                try
+                {
+                    WebClient client = new WebClient();
+                    byte[] imageData = await client.DownloadDataTaskAsync(imageUrl);
+                    Image image = Image.FromStream(new System.IO.MemoryStream(imageData));
 
-                // Visualizziamo le dimensioni dell'immagine
-                return image;
+                    // Visualizziamo le dimensioni dell'immagine
+                    return image;
+                }
+                catch(Exception ex)
+                {
+                    throw new Exception($"Impossible retrieve video preview");
+                }
             }
-
 
             public static Image FillImage(Image image, AppSettings settings)
             {
